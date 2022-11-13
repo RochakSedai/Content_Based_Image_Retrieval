@@ -1,0 +1,21 @@
+
+path: ../Brand  # dataset root dir
+train: images/Train  # train images (relative to 'path') 128 images
+val: images/Validation  # val images (relative to 'path') 128 images
+test:  # test images (optional)
+
+# Classes
+names:
+  0: Black
+  1: Blue
+  2: Brown
+  3: White
+  4: Grey
+  5: Red
+  6: Cream
+  7: Orange
+  8: Pink
+  9: Yellow
+
+
+

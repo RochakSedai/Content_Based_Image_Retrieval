@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
+<div class="container">
+<div class="card-deck">
+    {% for response in responses %}
+    <div class="card">
+      <img class="card-img-top" src="{{response.images}}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">{{response.product_name}} title</h5>
+        <p class="card-text">{{response.description}}</p>
+        <p class="card-text">{{response.price}}</p>
+        <p class="card-text">{{response.category.category_name}}</p>
+
+        <a href="#" class="btn btn-primary">View Product on Site</a>
+      </div>
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+    </section>
+
+{% endblock %}

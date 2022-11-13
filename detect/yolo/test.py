@@ -1,0 +1,1 @@
+python detect.py --source /home/sandeep/Desktop/caliber.jpg --weights /home/sandeep/Desktop/major/yolo/yolov5/best.pt 
