@@ -13,10 +13,10 @@
       <div class="card-body">
         <h5 class="card-title">{{response.product_name}} title</h5>
         <p class="card-text">{{response.description}}</p>
-        <p class="card-text">{{response.price}}</p>
+        <p class="card-text"><strong>Rs.</strong>{{response.price}}</p>
         <p class="card-text">{{response.category.category_name}}</p>
 
-        <a href="#" class="btn btn-primary">View Product on Site</a>
+        <a href="http://shoeasy.me/store/search/?keyword={{response.product_name}}" target="_blank" class="btn btn-primary">View Product on Site</a>
       </div>
     </div>
     {% endfor %}
