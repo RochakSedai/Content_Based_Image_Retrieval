@@ -32,6 +32,18 @@ def upload(request):
 
     # getting data from api
     responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+    
+
+    if responses == []:
+        keyword = keyword.rsplit(' ', 1)[0]
+        keyword = keyword.rsplit(' ', 1)[0]
+        responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+       
+        if responses == []:
+            keyword = keyword.rsplit(' ', 1)[0]
+            keyword = keyword.rsplit(' ', 1)[0]
+            responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+
     print(responses)
 
     # review rating analysis

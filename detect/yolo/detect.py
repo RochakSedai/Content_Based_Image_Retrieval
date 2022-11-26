@@ -220,7 +220,7 @@ def run(
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / r'D:\Major Project on CBIR and Recommendation\CBIR\detect\yolo\category_best.pt', help='model path or triton URL')
+    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / r'D:\Major Project on CBIR and Recommendation\CBIR\detect\yolo\Brand_best.pt', help='model path or triton URL')
     parser.add_argument('--source', type=str, default=ROOT / r'D:\Major Project on CBIR and Recommendation\CBIR\media\photos\products\shoes.jpg', help='file/dir/URL/glob/screen/0(webcam)')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
