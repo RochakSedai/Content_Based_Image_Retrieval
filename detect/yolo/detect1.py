@@ -257,10 +257,12 @@ def main(opt):
     type_name=run(**vars(opt))
     type_name=type_name.split(",")
     print(type_name[0])
+    x_bool = any (char.isdigit() for char in type_name[0])
     #lines = ['Readme', 'How to write text files in Python']
-    with open('test.txt', 'a') as f:
-            f.write(type_name[0])
-            f.write(" ")
+    if x_bool ==  False:
+        with open('test.txt', 'a') as f:
+                f.write(type_name[0])
+                f.write(" ")
 if __name__ == "__main__":
     opt = parse_opt()
     main(opt)

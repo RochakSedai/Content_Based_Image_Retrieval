@@ -140,8 +140,9 @@ def upload(request):
 
     if responses == []:
         keyword = keyword.rsplit(' ', 1)[0]
-        keyword = keyword.rsplit(' ', 1)[0]
+        keyword = keyword.rsplit(' ', 1)[0] 
         responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+        
        
         if responses == []:
             keyword = keyword.rsplit(' ', 1)[0]

@@ -27,31 +27,38 @@ def get_responses(responses):
     
     overall_review,overall_rating = [],[]
     l = len(responses)
+    print(l)
     df = pd.DataFrame(columns=['product_name','description','price','images','category','review','rating'])
     for i in range(l):
         rating, review = [], []
-        x = len(responses[i]['reviews'])
-        for j in range(x):
-            rating.append(responses[i]['reviews'][j].split('~$')[1])
-            review.append(responses[i]['reviews'][j].split('~$')[0])
-        p = len(rating)
-        ints = [float(item) for item in rating]
-        mean_rating = sum(ints)/p
-        overall_rating.append(mean_rating)
+        
+        if responses[i]['reviews'] != []:
+            x = len(responses[i]['reviews'])
+            for j in range(x):
+                rating.append(responses[i]['reviews'][j].split('~$')[1])
+                review.append(responses[i]['reviews'][j].split('~$')[0])
+            p = len(rating)
+            ints = [float(item) for item in rating]
+            mean_rating = sum(ints)/p
+            overall_rating.append(mean_rating)
 
-        ans = ' '
-        for t in review:
+            ans = ' '
+            for t in review:
 
-            ans = ans+ ' '+ t
-        overall_review.append(ans)
+                ans = ans+ ' '+ t
+            overall_review.append(ans)
+        
 
     # Create a new column with the results
 
-    df = pd.DataFrame(responses)
-    df['Rating'] = overall_rating
-    df['Review'] = overall_review
-    df.drop('reviews',axis=1,inplace=True)
-    df['Review'] = df['Review'].apply(cleantxt)
+            df = pd.DataFrame(responses)
+            df['Rating'] = overall_rating
+            df['Review'] = overall_review
+            df.drop('reviews',axis=1,inplace=True)
+            df['Review'] = df['Review'].apply(cleantxt)
+
+        else:
+            df['Rating'] = overall_rating
 
     # Create a function to get the polarity
     
@@ -59,9 +66,14 @@ def get_responses(responses):
     # max price for shoes
     fixed_max = 20000
 
-    df['Score'] = df.Review.apply(getPolarity)
+    
     df['Normalized_Price'] = (fixed_max - df['price'])/fixed_max
-    df['Overall_Score'] = df['Score']*0.4 + df['Rating']*0.2 + df['Normalized_Price']*0.4
+    if df['Rating'].empty:
+        df['Overall_Score'] = df['Normalized_Price']   
+    else: 
+        df['Score'] = df.Review.apply(getPolarity)
+        df['Overall_Score'] = df['Score']*0.4 + df['Rating']*0.2 + df['Normalized_Price']*0.4     
+
     df.sort_values(by=['Overall_Score'], inplace=True, ascending=False)
     #print(df)
     return df['product_name']
