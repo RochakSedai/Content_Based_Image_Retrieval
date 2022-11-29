@@ -3,8 +3,30 @@
 {% load static %}
 
 {% block content %}
+
+
+
+
+
 <section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
+
+  
+
     <div class="container d-flex flex-column align-items-center position-relative" data-aos="zoom-out">
+      {% if messages %}
+
+          {% for message in messages %}
+
+          <div id="message" class="container">
+          <div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">
+              <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button> 
+              {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} {% endif %}
+              {{ message }}
+          </div>
+          </div>
+          {% endfor %}
+
+      {% endif %}
       <h2>Welcome to <span>CBIR</span></h2>
       <p>Content Based Image Retrival and Recommendation based on User Reviews.</p>
       
@@ -37,7 +59,7 @@
       
       
       <div class="d-flex">
-        <a class="bi bi-camera-fill  btn-get-started scrollto"> Live Video</a>
+        <a class="bi bi-camera-fill  btn-get-started scrollto" href="{% url 'video_upload' %}"> Live Video</a>
         <!-- <a class="bi bi-cloud-upload  btn-get-started scrollto"> Upload Photo</a> -->
         <!-- <a class="bi bi-camera-fill btn-watch-video d-flex align-items-center"><span>  Live Video</span></a> -->
       </div>
@@ -300,4 +322,8 @@
 
   </main>
 
+
+
   {% endblock %}
+
+ 
