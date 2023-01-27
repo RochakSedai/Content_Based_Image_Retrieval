@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
-
+{% load url_filters %}
 {% block content %}
 
 <section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
@@ -16,7 +16,11 @@
         <p class="card-text"><strong>Rs.</strong>{{response.price}}</p>
         <p class="card-text">{{response.category.category_name}}</p>
 
-        <a href="http://shoeasy.me/store/search/?keyword={{response.product_name}}" target="_blank" class="btn btn-primary">View Product on Site</a>
+   
+        
+          <a href="http://{{ response.images|gethostname }}/store/search/?keyword={{response.product_name}}" target="_blank" class="btn btn-primary">View Product on Site</a>
+        
+        
       </div>
     </div>
     {% endfor %}

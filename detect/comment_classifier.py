@@ -27,11 +27,10 @@ def get_responses(responses):
     
     overall_review,overall_rating = [],[]
     l = len(responses)
-    print(l)
     df = pd.DataFrame(columns=['product_name','description','price','images','category','review','rating'])
     for i in range(l):
+        print(overall_rating)
         rating, review = [], []
-        
         if responses[i]['reviews'] != []:
             x = len(responses[i]['reviews'])
             for j in range(x):
@@ -47,18 +46,29 @@ def get_responses(responses):
 
                 ans = ans+ ' '+ t
             overall_review.append(ans)
+        else: 
+            overall_rating.append(0)
+            overall_review.append('')
         
+    
 
     # Create a new column with the results
+    if overall_rating != []:
+        print('-----------------------------------------------')
+        print(overall_rating)
+        df = pd.DataFrame(responses)
+        df['Rating'] = overall_rating
+        df['Review'] = overall_review
+        df.drop('reviews',axis=1,inplace=True)
+        df['Review'] = df['Review'].apply(cleantxt)
+        print(df['Rating'])
+    
+    else:
+        print('-----------------------------------------------')
+        print(overall_rating)
+        df['Rating'] = []
 
-            df = pd.DataFrame(responses)
-            df['Rating'] = overall_rating
-            df['Review'] = overall_review
-            df.drop('reviews',axis=1,inplace=True)
-            df['Review'] = df['Review'].apply(cleantxt)
-
-        else:
-            df['Rating'] = overall_rating
+        
 
     # Create a function to get the polarity
     

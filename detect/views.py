@@ -13,7 +13,9 @@ from .forms import ContactForm
 import cv2
 from PIL import Image
 from django.contrib import messages
-
+import json
+import sys
+from itertools import chain
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -135,19 +137,43 @@ def upload(request):
     print(keyword)
 
     # getting data from api
-    responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+    shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+    print('--------------------------------------------------shoeasy------------------------------------------')
+    print(shoeasy_responses)
+    khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+    print('--------------------------------------------------khwopakart------------------------------------------')
+    print(khwopakart_response)
+    # new_khwopakart = json.dumps(khwopakart_response)
+    # new_khwopakart_response = new_khwopakart[1:-1]
+    # print('--------------------------------------------------khwopakart-string------------------------------------------')
+    # print(new_khwopakart_response)
+    # new_khwopakart_response_obj = json.loads(new_khwopakart_response)
+    # responses.append(new_khwopakart_response_obj)
+    responses = list(chain(shoeasy_responses, khwopakart_response))
+
+    print('---------------------------------------Merged response---------------------------------------------------')
+    print(responses)
+    
     
 
     if responses == []:
         keyword = keyword.rsplit(' ', 1)[0]
         keyword = keyword.rsplit(' ', 1)[0] 
-        responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
-        
+        shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+        khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+        responses = list(chain(shoeasy_responses, khwopakart_response))
        
         if responses == []:
             keyword = keyword.rsplit(' ', 1)[0]
             keyword = keyword.rsplit(' ', 1)[0]
-            responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+            shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+            khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+            responses = list(chain(shoeasy_responses, khwopakart_response))
+
+    if responses == []:
+        messages.error(request, 'Sorry the product you are looking for is not in our site.')
+        return redirect('home')
+
 
     print(responses)
 
@@ -177,6 +203,8 @@ def upload(request):
     img_lst=check_similar(img_lst)
     print(img_lst)
 
+    ecom_site_list = []
+
     for i in range(len(img_lst)):
         for j in range(len(responses)):
             img = os.path.splitext(img_lst[i])[0]
@@ -184,10 +212,13 @@ def upload(request):
                 response = responses[i]
                 responses[i] = responses[j]
                 responses[j] = response
+                ecom_site_list.append(responses[j]['images'].split('/')[2])
 
-    
+    print(ecom_site_list)
+
     context = {
         'responses': responses,
+        'site_list': ecom_site_list,
     }
 
     return render(request, 'output.html', context)

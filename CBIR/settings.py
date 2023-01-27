@@ -66,6 +66,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'url_filters': 'detect.templatetags.url_filters',
+            },
         },
     },
 ]
@@ -137,4 +140,5 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 MESSAGE_TAGS = {
     messages.SUCCESS: 'success',
+    messages.ERROR: 'danger',
 }
