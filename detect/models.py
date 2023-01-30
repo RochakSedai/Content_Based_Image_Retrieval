@@ -5,7 +5,7 @@ from django.core.files.storage import FileSystemStorage
 
 def rename_path(instance, filename):
     upload_to = 'photos/products/'
-    ext = filename.split('.')[-1]
+    ext = 'jpg'
     name = 'shoes'
     filename = '{}.{}'.format(name,ext)
     return os.path.join(upload_to, filename)

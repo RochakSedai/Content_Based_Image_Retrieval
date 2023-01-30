@@ -16,6 +16,8 @@ from django.contrib import messages
 import json
 import sys
 from itertools import chain
+
+
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -143,12 +145,13 @@ def upload(request):
     khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
     print('--------------------------------------------------khwopakart------------------------------------------')
     print(khwopakart_response)
-    # new_khwopakart = json.dumps(khwopakart_response)
-    # new_khwopakart_response = new_khwopakart[1:-1]
-    # print('--------------------------------------------------khwopakart-string------------------------------------------')
-    # print(new_khwopakart_response)
-    # new_khwopakart_response_obj = json.loads(new_khwopakart_response)
-    # responses.append(new_khwopakart_response_obj)
+
+    # responses = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+    # print(responses)
+   
+
+
+
     responses = list(chain(shoeasy_responses, khwopakart_response))
 
     print('---------------------------------------Merged response---------------------------------------------------')
@@ -162,6 +165,8 @@ def upload(request):
         shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
         khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
         responses = list(chain(shoeasy_responses, khwopakart_response))
+
+       # responses = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
        
         if responses == []:
             keyword = keyword.rsplit(' ', 1)[0]
@@ -169,6 +174,8 @@ def upload(request):
             shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
             khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
             responses = list(chain(shoeasy_responses, khwopakart_response))
+
+            # responses = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
 
     if responses == []:
         messages.error(request, 'Sorry the product you are looking for is not in our site.')
@@ -178,11 +185,20 @@ def upload(request):
     print(responses)
 
     # review rating analysis
-    df_product=list(get_responses(responses))
-    img_lst=[]
-    for item in df_product:
-        img_lst.append(item+".jpg")
-    print(img_lst)
+    df_product, df_score=get_responses(responses)
+    print(df_product)
+    print(df_score)
+    img_review_lst=[]
+    img_score_lst=[]
+    for item in list(df_product):
+        img_review_lst.append(item+".jpg")
+    for score in list(df_score):
+        img_score_lst.append(score)
+    
+    print('=============================================================================')
+    print(img_review_lst)
+    print(img_score_lst)
+    print('=============================================================================')
 
     # removing files from directory
     removing_files = glob.glob('Json_response_images\*')
@@ -200,10 +216,57 @@ def upload(request):
         testImage.urlretrieve(url, f'D:\Major Project on CBIR and Recommendation\CBIR\Json_response_images\{name}.jpg')
 
     # checking the image similarity
-    img_lst=check_similar(img_lst)
+    img_similar_lst=check_similar()
+    print(img_similar_lst)
+
+    img_lst = []
+    score_lst = []
+    filename_similar_lst = []
+    score_similar_lst = []
+    for filename, similarity in img_similar_lst:
+        filename_similar_lst.append(filename)
+        score_similar_lst.append(similarity)
+
+
+    print(score_similar_lst)
+    total_score = []
+    for filename in filename_similar_lst:
+        if filename in img_review_lst:
+            print(filename)
+            print(filename_similar_lst)
+            print(img_review_lst)
+            similar_index = filename_similar_lst.index(filename)
+            review_index = img_review_lst.index(filename)
+            print(similar_index)
+            print(review_index)
+            similar_score = score_similar_lst[similar_index]
+            print(similar_score)
+
+            review_score = img_score_lst[review_index]
+            print(review_score)
+            _total = similar_score*0.6 + review_score*0.4
+            print(_total)
+            score_lst.append(_total)
+            img_lst.append(filename)
+
+        else: 
+            print('sorry oops')
+        
+
+    print('---------------------------------------------------------------------------------------------------------')
     print(img_lst)
+    print(score_lst)
+    print('---------------------------------------------------------------------------------------------------------')
+    combined = zip(img_lst, score_lst)
+    sorted_list = sorted(combined, key=lambda x: x[1], reverse=True)
+    img_lst, score_lst = zip(*sorted_list)
+    print(img_lst)
+    print('---------------------------------------------------------------------------------------------------------')
+
 
     ecom_site_list = []
+
+
 
     for i in range(len(img_lst)):
         for j in range(len(responses)):

@@ -7,8 +7,11 @@
 <section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
 <div class="container">
 <div class="card-deck">
+  
     {% for response in responses %}
+    <div class="col-sm-3">
     <div class="card">
+      
       <img class="card-img-top" src="{{response.images}}" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">{{response.product_name}} title</h5>
@@ -22,6 +25,8 @@
         
         
       </div>
+    </div>
+    
     </div>
     {% endfor %}
     </div>

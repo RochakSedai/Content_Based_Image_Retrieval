@@ -86,6 +86,6 @@ def get_responses(responses):
 
     df.sort_values(by=['Overall_Score'], inplace=True, ascending=False)
     #print(df)
-    return df['product_name']
+    return df['product_name'], df['Overall_Score']
 
     

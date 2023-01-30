@@ -1,65 +1,69 @@
 import cv2
-import glob
-import os
-from os import listdir
-import pandas as pd
 import numpy as np
-from skimage.metrics import structural_similarity as ssim
-from copy import deepcopy
-from skimage.transform import resize
-
-def mse(imageA, imageB):
-        # the 'Mean Squared Error' between the two images is the
-        # sum of the squared difference between the two images;
-        # NOTE: the two images must have the same dimension
-        err = np.sum((imageA.astype("float") - imageB.astype("float")) ** 2)
-        err /= float(imageA.shape[0] * imageA.shape[1])
-        return err
-
-# def diff_remove_bg(img0, img, img1):
-#     d1 = diff(img0, img)
-#     d2 = diff(img, img1)
-#     return cv2.bitwise_and(d1, d2)
+from skimage import io
+import imutils
+import pandas as pd 
+import os
 
 
-def check_similar(img_lst):
+# compare similarity of images using SIFT library
+def sift_similarity(imageA, imageB):
+    # convert both images to size 1000x1000
+    imageB = cv2.resize(imageB, (1000, 1000))
 
-   
-    img_lst=deepcopy(img_lst)
-    x1 = cv2.imread("media\photos\products\shoes.jpg")
-    x1 = cv2.cvtColor(x1, cv2.COLOR_BGR2GRAY) 
-    print("this is inside check",img_lst)
+    sift = cv2.xfeatures2d.SIFT_create()
+    kp_1, desc_1 = sift.detectAndCompute(imageA, None)
+    kp_2, desc_2 = sift.detectAndCompute(imageB, None)
+
+    index_params = dict(algorithm=0, trees=5)
+    search_params = dict()
+    flann = cv2.FlannBasedMatcher(index_params, search_params)
+    matches = flann.knnMatch(desc_1, desc_2, k=2)
+
+    good_points = []
+    ratio = 0.75
+    for m, n in matches:
+        if m.distance < ratio*n.distance:
+            good_points.append(m)
+            #print(len(good_points))
+    result = cv2.drawMatches(imageA, kp_1, imageB, kp_2, good_points, None)
+
+    # Define how similar they are
+    number_keypoints = 0
+    if len(kp_1) <= len(kp_2):
+        number_keypoints = len(kp_1)
+    else:
+        number_keypoints = len(kp_2)
     
-    #folder_dir = "Json_response_images"
-    mse_lst=[]
-    ssim_lst=[]
-    for i in img_lst:
-        print("this is i",i)
-        x2 = cv2.imread(f"Json_response_images\{i}")
-        print("this is image",f"Json_response_images\{i}")
-        x2 = cv2.cvtColor(x2, cv2.COLOR_BGR2GRAY)
-        x2 = resize(x2, (x1.shape[0], x1.shape[1]), anti_aliasing=True, preserve_range=True)
-        x1 = resize(x1, (x1.shape[0], x1.shape[1]), anti_aliasing=True, preserve_range=True)
-        #absdiff = cv2.absdiff(x1, x2)
-        diff = cv2.subtract(x1, x2)
-        result = not np.any(diff)
-        print("this is ",result)
+    match_percentage = len(good_points) / number_keypoints * 100
+    # print("Keypoints 1ST Image: " + str(len(kp_1)))
+    # print("Keypoints 2ND Image: " + str(len(kp_2)))
 
-        m = mse(x1, x2)
-        mse_lst.append(m)
-        s = ssim(x1, x2)
-        ssim_lst.append(s)
+    # print("GOOD Matches:", len(good_points))
+    # print("How good it's the match: ", len(good_points) / number_keypoints * 100, "%")
 
-        print ("This is final result",result,m,s)
+    return match_percentage
 
-    for i in range(len(ssim_lst)):
-        for j in range(i + 1, len(ssim_lst)):
+def check_similar():
+    # load the two input images
 
-            if ssim_lst[i] < ssim_lst[j]:
-                ssim_lst[i], ssim_lst[j] = ssim_lst[j], ssim_lst[i]
-                img_lst[i], img_lst[j] = img_lst[j], img_lst[i]
+    imageA = io.imread(r"D:\Major Project on CBIR and Recommendation\CBIR\media\photos\products\shoes.jpg")
 
-    
-    return img_lst
+    imageA = cv2.resize(imageA, (1000, 1000))
+        
+    similarities = []
+
+    for filename in os.listdir(r"D:\Major Project on CBIR and Recommendation\CBIR\Json_response_images"):
+        if filename.endswith(".jpg"):
+            # Read the image
+            img = cv2.imread(os.path.join(r"D:\Major Project on CBIR and Recommendation\CBIR\Json_response_images", filename))
+            s1 = sift_similarity(imageA, img)
+            #print(filename +" "+ str(s1))
+            similarities.append((filename, s1))
+
+    # Sort the similarity values in descending order
+    similarities.sort(key=lambda x: x[1], reverse=True)
+
+    return similarities
 
 
