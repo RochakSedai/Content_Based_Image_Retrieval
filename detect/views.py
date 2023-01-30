@@ -135,9 +135,11 @@ def video_upload(request):
 
 def upload(request):
     if request.method == 'POST':
+        print('HI')
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            img_obj = form.instance
 
                
     calling()
@@ -150,6 +152,13 @@ def upload(request):
 
     keyword = keyword.strip()
     print(keyword)
+
+    if keyword == '':
+        print('Hey you')
+        messages.error(request, 'Sorry the product you are looking is not related to the footwear..')
+        return redirect('home')
+
+    
     # getting data from api
     shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
     print('--------------------------------------------------shoeasy------------------------------------------')
@@ -332,6 +341,7 @@ def upload(request):
     context = {
         'responses': responses,
         'site_list': ecom_site_list,
+        'img_obj': img_obj,
     }
 
     return render(request, 'output.html', context)

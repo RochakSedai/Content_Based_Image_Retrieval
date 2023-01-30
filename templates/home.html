@@ -7,13 +7,15 @@
 
 
 
+ <!-- Header -->
+ 
+ <header id="header" class="header bg-gray">
+   
+  <div class="container">
 
-<section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
-
-  
-
-    <div class="container d-flex flex-column align-items-center position-relative" data-aos="zoom-out">
-      {% if messages %}
+      <div class="row">
+          <div class="col-xl-6">
+            {% if messages %}
 
           {% for message in messages %}
 
@@ -27,302 +29,214 @@
           {% endfor %}
 
       {% endif %}
-      <h2>Welcome to <span>CBIR</span></h2>
-      <p>Content Based Image Retrival and Recommendation based on User Reviews.</p>
-      
-      <div class="container">
-        <form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-        <div class="panel">
-          <div class="button_outer">
-            
+
+              <div class="text-container">
+                  <h1 class="h1-large">CBIR and Recommendation <span class="red">based on User Reviews</span></h1>
+                  <p class="p-large">"Discover and personalize your experience through CBIR and User Review Recommendations"</p>
+
+                  <!-- Sign Up Form -->
+                  <form id="#signUpForm" action="{% url 'upload' %}" method="POST"  style="display: flex; align-items: center; padding: 20px;" enctype="multipart/form-data">
+                    {% csrf_token %}
+                      <input type="file" id="sphoto" name="image"  required style="width: 70%; padding: 20px; font-size: 18px; border-radius: 10px; border: 2px solid #ccc; margin-right: 20px;">
+                      <button type="submit" style="width: 30%; padding: 20px; font-size: 18px; background-color: #4CAF50; color: white; border: none; border-radius: 10px;">Upload</button>
+                  </form>
+              </div> <!-- end of text-container -->
+          </div> <!-- end of col -->
+          <div class="col-xl-6">
+              <div class="image-container">
+                  <img class="img-fluid" src="{% static 'images/header.svg' %}" alt="alternative">
+              </div> <!-- end of image-container -->
+          </div> <!-- end of col -->
+      </div> <!-- end of row -->
+  </div> <!-- end of container -->
+</header> <!-- end of header -->
+
+
+
+<!-- Introduction -->
+<div id="intro" class="basic-1">
+  <div class="container">
+      <div class="row">
+          <div class="col-xl-7">
+              <div class="text-container">
+                  <div class="title-wrapper">
+                      <span class="fa-stack">
+                          <i class="fas fa-circle fa-stack-2x"></i>
+                          <i class="fas fa-book-reader fa-stack-1x"></i>
+                      </span>
+                      <h4>What is CBIR and Recommendation based on User Reviews ?</h4>
+                  </div> <!-- end of title wrapper -->
+                  <p>CBIR stands for Content-Based Image Retrieval, a computer vision technique used to retrieve images from a large database based on their visual content. 
+                      It involves analyzing the features of images, such as color, texture, shape, and object location, and using these features to search for similar images.<br><br>
+                      Recommendation based on User Reviews refers to a recommendation system that suggests items to users based on the reviews or ratings provided by other users. 
+                      This system analyzes the historical user data, such as purchase history or product ratings, to generate personalized recommendations for each user. It is commonly used in e-commerce websites and online platforms to improve the user experience and increase sales.</p>
+              </div> <!-- end of text-container -->
+          </div> <!-- end of col -->
+          <div class="col-xl-5">
+              <div class="text-box bg-gray">
+                  <div class="title-wrapper">
+                      <span class="fa-stack">
+                          <i class="fas fa-circle fa-stack-2x"></i>
+                          <i class="fas fa-globe fa-stack-1x"></i>
+                      </span>
+                      <h4>Our websites</h4>
+                  </div> <!-- end of title wrapper -->
+                  <ul class="list-unstyled li-space-lg">
+                      <li class="media">
+                          <i class="fas fa-chevron-right"></i>
+                          <div class="media-body"><strong>Shoeasy</strong></div>
+                      </li>
+                      <li class="media">
+                          <i class="fas fa-chevron-right"></i>
+                          <div class="media-body"><strong>KhwopaKart</strong></div>
+                      </li>
+                  </ul>
+              </div> <!-- end of text-container -->
+          </div> <!-- end of col -->
+      </div> <!-- end of row -->
+  </div> <!-- end of container -->
+</div> <!-- end of basic-1 -->
+<!-- end of introduction -->
+
+
+<!-- Takeaways -->
+<div id="takeaways" class="cards-1">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+              <h2 class="h2-heading">Our Features</h2>
+          </div> <!-- end of col -->
+      </div> <!-- end of row -->
+      <div class="row">
+          <div class="col-lg-12">
               
-            <div class="bi bi-cloud-upload btn_upload">
-              <input type="file" id="upload_file" name="image">
-              Upload Image
-            </div>
-            
-          
-            <div class="processing_bar"></div>
-            <div class="success_box"></div>
+              <!-- Card -->
+              <div class="card">
+                  <div class="card-image">
+                      <img class="img-fluid" src="{% static 'images/takeaways-icon-1.svg' %}" alt="alternative">
+                  </div>
+                  <div class="card-body">
+                      <h5 class="card-title">Image & Video Search</h5>
+                  </div>
+              </div>
+              <!-- end of card -->
+
+              <!-- Card -->
+              <div class="card">
+                  <div class="card-image">
+                      <img class="img-fluid" src="{% static 'images/takeaways-icon-2.svg' %}" alt="alternative">
+                  </div>
+                  <div class="card-body">
+                      <h5 class="card-title">Realtime Price Comparison</h5>
+                  </div>
+              </div>
+              <!-- end of card -->
+
+              <!-- Card -->
+              <div class="card">
+                  <div class="card-image">
+                      <img class="img-fluid" src="{% static 'images/takeaways-icon-3.svg' %}" alt="alternative">
+                  </div>
+                  <div class="card-body">
+                      <h5 class="card-title">Sentiment Analysis</h5>
+                  </div>
+              </div>
+              <!-- end of card -->
+
+              <!-- Card -->
+              <div class="card">
+                  <div class="card-image">
+                      <img class="img-fluid" src="{% static 'images/takeaways-icon-4.svg' %}" alt="alternative">
+                  </div>
+                  <div class="card-body">
+                      <h5 class="card-title">Recommendation</h5>
+                  </div>
+              </div>
+              <!-- end of card -->
+
+          </div> <!-- end of col -->
+      </div> <!-- end of row -->
+  </div> <!-- end of container -->
+</div> <!-- end of cards-1 -->
+<!-- end of takeaways -->
+
+
+<!-- Summary -->
+<div id="summary" class="basic-2">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-6">
+              <div class="text-container">
+                  <h2>Objectives</h2>
+                  <div class="chapter">
+                      <p>To recognize the label for the given image and recommend the best product
+                          as per the price and sentiment analysis of the review similar products have.</p>
+                  </div> <!-- end of chapter -->
+              </div> <!-- end of text-container -->
+          </div> <!-- end of col -->
+          <div class="col-lg-6">
+              <div class="image-container">
+                  <img class="img-fluid" src="{% static 'images/kids.png' %}" alt="alternative">
+              </div> <!-- end of image-container -->
+          </div> <!-- end of col -->
+      </div> <!-- end of row -->
+  </div> <!-- end of container -->
+</div> <!-- end of basic-2 -->
+<!-- end of summary -->
+
+<!-- Testimonials -->
+<br><br>
+<h2 style="text-align:center;">Our Team</h2>
+<br><br>
+<div id= "team" class="container">
+  <div class="row">
+     <div class="col-lg-3 col-md-6">
+        <div class="card">
+           <img class="card-image" src="{% static 'images/anup.jpeg' %}" alt="alternative">
+           <div class="card-body">
+              <p class="testimonial-author" align="center" >Anup Kafle</p>
+              <div class="social-media" align="center">
+                  <a href="https://www.linkedin.com/in/anup-kafle-6617a3196/" style="color: #3f3b6b;"><i class="fab fa-linkedin fa-2x"></i></a>
+               </div>
+           </div>
+        </div>
+     </div>
+     <div class="col-lg-3 col-md-6">
+      <div class="card">
+          <img class="card-image" src="{% static 'images/anushil.jpeg' %}" alt="alternative">
+          <div class="card-body">
+             <p class="testimonial-author" align="center" >Anushil Timsina</p>
+             <div class="social-media" align="center">
+                 <a href="https://www.linkedin.com/in/anushil-timsina-2813a11b6/" style="color: #3f3b6b;"><i class="fab fa-linkedin fa-2x"></i></a>
+              </div>
           </div>
-        </div>
-        <div class="error_msg"></div>
-        <div class="uploaded_file_view" id="uploaded_view">
-          <span class="file_remove">X</span>
-        </div>
-        <div class="form-group text-center">
-          <button type="submit" class="btn btn-outline-info btn-lg"> Submit </button>
-      </div>
-      </form>
-      </div>
-      
-      
-      <div class="d-flex">
-        <a class="bi bi-camera-fill  btn-get-started scrollto" href="{% url 'video_upload' %}"> Live Video</a>
-        <!-- <a class="bi bi-cloud-upload  btn-get-started scrollto"> Upload Photo</a> -->
-        <!-- <a class="bi bi-camera-fill btn-watch-video d-flex align-items-center"><span>  Live Video</span></a> -->
-      </div>
-    </div>
-  </section>
-
-  <main id="main">
-
-    <!-- ======= CBIR Process Section ======= -->
-    <section id="featured-services" class="featured-services">
-      <div class="container">
-        <h1 style="color:#2596be;">CBIR Process</h1>
-        <div class="row gy-4">
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="bi bi-activity icon"></i></div>
-              <h4><a href="" class="stretched-link">Identify</a></h4>
-              <p>Identify the images</p>
-            </div>
+       </div>     
+     </div>
+     <div class="col-lg-3 col-md-6">
+      <div class="card">
+          <img class="card-image" src="{% static 'images/rochak.jpeg' %}" alt="alternative">
+          <div class="card-body">
+             <p class="testimonial-author" align="center" >Rochak Sedai</p>
+             <div class="social-media" align="center">
+                 <a href="https://www.linkedin.com/in/rochak-sedai-7313811b7/" style="color: #3f3b6b;"><i class="fab fa-linkedin fa-2x"></i></a>
+              </div>
           </div>
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="200">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-              <h4><a href="" class="stretched-link">Search</a></h4>
-              <p>Search the image labels</p>
-            </div>
+       </div>       
+     </div>
+     <div class="col-lg-3 col-md-6">
+      <div class="card">
+          <img class="card-image" src="{% static 'images/sandeep.jpeg' %}" alt="alternative">
+          <div class="card-body">
+             <p class="testimonial-author" align="center" >Sandeep Subedi</p>
+             <div class="social-media" align="center">
+                 <a href="https://www.linkedin.com/in/sandeep-subedi-541395184/" style="color: #3f3b6b;"><i class="fab fa-linkedin fa-2x"></i></a>
+              </div>
           </div>
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="400">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-              <h4><a href="" class="stretched-link">Compare</a></h4>
-              <p>Compare the product </p>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
-            <div class="service-item position-relative">
-              <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-              <h4><a href="" class="stretched-link">Result</a></h4>
-              <p>Display</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ======= About CBIR Section ======= -->
-    <section id="about" class="about">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-header">
-          <h2>About Us</h2>
-        </div>
-        <div class="row g-4 g-lg-5" data-aos="fade-up" data-aos-delay="200">
-
-          <div class="col-lg-5">
-            <div class="about-img">
-              <img src="{% static 'img/about.jpg' %}" class="img-fluid" alt="">
-            </div>
-          </div>
-
-          <div class="col-lg-7">
-            <!-- Tab Content -->
-            <div class="tab-content">
-
-              <div class="tab-pane fade show active" id="tab1">
-
-                <p class="fst-italic">Finding the exact product that's required has always been a problem. Product search with images is very rarely used by e-commerce sites. Reviews for the product can be vague and most of the time might be done by the seller to outfox the probable customer. So comes CBIR to solve following problems: </p>
-                <div class="d-flex align-items-center mt-4">
-                  <i class="bi bi-check2"></i>
-                  <h4>To recognize the label for the given image.</h4>
-                </div>
-                <p></p>
-
-                <div class="d-flex align-items-center mt-4">
-                  <i class="bi bi-check2"></i>
-                  <h4>To recommend the best product as per the price and sentiment analysis of
-                    the reviews the product possess.</h4>
-                </div>
-                <p></p>
-              </div><!-- End Tab 1 Content -->
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section><!-- End About Section -->
-    <!-- ======= Team Section ======= -->
-    <section id="team" class="team">
-      <div class="container" data-aos="fade-up">
-
-        <div class="section-header">
-          <h2>Our Team</h2>
-          <p></p>
-        </div>
-
-        <div class="row gy-5">
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'img/team/team-1.jpg' %}" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <div class="social">
-                  <a href="https://twitter.com/anupkaphle24" target="_blank" ><i class="bi bi-twitter"></i></a>
-                  <a href="https://www.facebook.com/anupkafle24" target="_blank"><i class="bi bi-facebook"></i></a>
-                  <a href="https://www.instagram.com/on_up2/" target="_blank" ><i class="bi bi-instagram"></i></a>
-                  <a href="https://www.linkedin.com/in/anup-kafle-6617a3196/" target="_blank"><i class="bi bi-linkedin"></i></a>
-                </div>
-                <h4>Anup Kafle</h4>
-                <!-- <span>Chief Executive Officer</span> -->
-              </div>
-            </div>
-          </div><!-- End Team Member -Anup  -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="400">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'img/team/team-2.jpg' %}" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <div class="social">
-                  <a href="https://twitter.com/AnushilTimsina" target="_blank" ><i class="bi bi-twitter"></i></a>
-                  <a href="https://www.facebook.com/anushil.timsina.9" target="_blank" ><i class="bi bi-facebook"></i></a>
-                  <a href="https://www.instagram.com/anushil09/" target="_blank" ><i class="bi bi-instagram"></i></a>
-                  <a href="https://www.linkedin.com/in/anushil-timsina-2813a11b6/" target="_blank" ><i class="bi bi-linkedin"></i></a>
-                </div>
-                <h4>Anushil Timsina</h4>
-                <!-- <span>Machine Learning Engineer, FuseMachines</span> -->
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="600">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'img/team/team-3.jpg' %}" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <div class="social">
-                  <a href="https://twitter.com/rochak_sedai" target="_blank" ><i class="bi bi-twitter"></i></a>
-                  <a href="https://www.facebook.com/sedairochak" target="_blank" ><i class="bi bi-facebook"></i></a>
-                  <a href="https://www.instagram.com/rochak_sedai12/" target="_blank" ><i class="bi bi-instagram"></i></a>
-                  <a href="https://www.linkedin.com/in/rochak-sedai-7313811b7/" target="_blank" ><i class="bi bi-linkedin"></i></a>
-                </div>
-                <h4>Rochak Sedai</h4>
-                <!-- <span>Data Engineer, CodeRush</span> -->
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="800">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'img/team/team-4.jpg' %}" class="img-fluid" alt="">
-              </div>
-              <div class="member-info">
-                <div class="social">
-                  <a href="" target="_blank" ><i class="bi bi-twitter"></i></a>
-                  <a href="https://www.facebook.com/sandeep.subedi.735" target="_blank" ><i class="bi bi-facebook"></i></a>
-                  <a href="" target="_blank" ><i class="bi bi-instagram"></i></a>
-                  <a href="https://www.linkedin.com/in/sandeep-subedi-541395184/" target="_blank" ><i class="bi bi-linkedin"></i></a>
-                </div>
-                <h4>Sandeep Subedi</h4>
-                <!-- <span>CTO</span> -->
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-        </div>
-
-      </div>
-    </section><!-- End Team Section -->
-
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-      <div class="container">
-
-        <div class="section-header">
-          <h2>Contact Us</h2>
-          <!-- <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut ad dolores adipisci aliquam.</p> -->
-        </div>
-
-      </div>
-      <div class="container">
-
-        <div class="row gy-5 gx-lg-5">
-
-          <div class="col-lg-4">
-
-            <div class="info">
-              <h3>Get in touch</h3>
-              <!-- <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi minus.</p> -->
-
-              <div class="info-item d-flex">
-                <i class="bi bi-geo-alt flex-shrink-0"></i>
-                <div>
-                  <h4>Location:</h4>
-                  <p>Libali, Bhaktapur - 8
-                    Bhaktapur, NP 44800</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="info-item d-flex">
-                <i class="bi bi-envelope flex-shrink-0"></i>
-                <div>
-                  <h4>Email:</h4>
-                  <p>info@cbirandrecommendation.com</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="info-item d-flex">
-                <i class="bi bi-phone flex-shrink-0"></i>
-                <div>
-                  <h4>Call:</h4>
-                  <p>+977 987654321</p>
-                </div>
-              </div><!-- End Info Item -->
-
-            </div>
-
-          </div>
-
-          <div class="col-lg-8">
-            <form action="{% url 'contact' %}" method="post" role="form">
-              {% csrf_token %}
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="from_name" class="form-control" id="name" placeholder="Your Name" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="from_email" id="email" placeholder="Your Email" required>
-                </div>
-              </div>
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-              </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" placeholder="Message" required></textarea>
-              </div>
-              <!-- <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div> -->
-              <div class="text-center">
-                <input type="submit" class="btn btn-primary btn-block" value="Send Message">
-              </div>
-              </form>
-          </div><!-- End Contact Form -->
-          
-        </div>
-
-      </div>
-    </section><!-- End Contact Section -->
-
-  </main>
+       </div>
+     </div>
+  </div>
+</div>
+<br><br>
 
 
 

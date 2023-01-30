@@ -4,33 +4,70 @@
 {% load url_filters %}
 {% block content %}
 
-<section id="hero-fullscreen" class="hero-fullscreen d-flex align-items-center">
-<div class="container">
-<div class="card-deck">
-  
-    {% for response in responses %}
-    <div class="col-sm-3">
-    <div class="card">
-      
-      <img class="card-img-top" src="{{response.images}}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">{{response.product_name}} title</h5>
-        <p class="card-text">{{response.description}}</p>
-        <p class="card-text"><strong>Rs.</strong>{{response.price}}</p>
-        <p class="card-text">{{response.category.category_name}}</p>
+<!-- Header -->
+<header class="ex-header bg-white">
+  <div class="container">
+              <h1>Input Image</h1>
+          
+  </div> <!-- end of container -->
+</header> <!-- end of ex-header -->
+<!-- end of header -->
 
-   
-        
-          <a href="http://{{ response.images|gethostname }}/store/search/?keyword={{response.product_name}}" target="_blank" class="btn btn-primary">View Product on Site</a>
-        
-        
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3 mt-0">
+    <div class="card">
+      <img src="{{ img_obj.image.url }}" class="card-img-top" alt="card1">
+    </div>
+    </div>
+  </div>
+</div>
+
+<header class="bg-white mt-5">
+  <div class="container">
+      <h1>Recommended Products</h1>
+  </div>
+  </header>
+
+<!-- Cards -->
+  <div class="container">
+      <div class="row">
+        {% for response in responses %}
+        {% if response.images|gethostname == 'shoeasy.me'%}
+          <div class="col-lg-3 col-md-6 mt-4">
+              <div class="card">
+                
+                 <div class="ribbon">Recommended</div>
+                 <div class="photo-ribbon">ShoEasy</div>
+                 <img src="{{response.images}}" class="card-img-top" alt="card1">
+                 <div class="card-body">
+                    <h5 class="card-title mt-5">{{response.product_name|truncatewords:6}}</h5>
+                    <p class="card-text">{{response.description|truncatewords:15}}</p>
+                    <p class="card-text"><strong>Rs.</strong>{{response.price}}</p>
+                    <p class="card-text">{{response.category.category_name}}</p>
+                    <a href="http://{{ response.images|gethostname }}/store/search/?keyword={{response.product_name}}" target="_blank" class="btn btn-primary">View on Site</a>
+                 </div>
+              </div>
+          </div>
+        {% else %}
+        <div class="col-lg-3 col-md-6 mt-4">
+          <div class="card">
+            
+             <div class="ribbon">Recommended</div>
+             <div class="photo-ribbon">KhwopaKart</div>
+             <img src="{{response.images}}" class="card-img-top" alt="card1">
+             <div class="card-body">
+                <h5 class="card-title mt-5">{{response.product_name|truncatewords:6}}</h5>
+                <p class="card-text">{{response.description|truncatewords:15}}</p>
+                <p class="card-text"><strong>Rs.</strong>{{response.price}}</p>
+                <p class="card-text">{{response.category.category_name}}</p>
+                <a href="http://{{ response.images|gethostname }}/store/search/?keyword={{response.product_name}}" target="_blank" class="btn btn-primary">View on Site</a>
+             </div>
+          </div>
       </div>
-    </div>
-    
-    </div>
-    {% endfor %}
-    </div>
-    </div>
-    </section>
+      {% endif %}
+        {% endfor %}
+      </div>
+    </div>  
 
 {% endblock %}
