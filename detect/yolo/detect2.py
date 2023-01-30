@@ -262,7 +262,6 @@ def main(opt):
     if x_bool ==  False:
         with open('test.txt', 'a') as f:
                 f.write(type_name[0])
-                f.write(" ")
 if __name__ == "__main__":
     opt = parse_opt()
     main(opt)

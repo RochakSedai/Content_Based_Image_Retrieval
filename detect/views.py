@@ -18,6 +18,7 @@ import sys
 from itertools import chain
 
 
+
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
@@ -71,13 +72,22 @@ def video_upload(request):
     
 
     if responses == []:
-        keyword = keyword.rsplit(' ', 1)[0]
-        keyword = keyword.rsplit(' ', 1)[0]
+        keyword = keyword.rsplit(' ', 1)
+
+        if len(keyword) == 3 :
+            keyword = keyword[0] + keyword[1]
+        else: 
+            keyword = keyword[0]
+        # keyword = keyword.rsplit(' ', 1)[0]
         responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
        
         if responses == []:
-            keyword = keyword.rsplit(' ', 1)[0]
-            keyword = keyword.rsplit(' ', 1)[0]
+            keyword = keyword.rsplit(' ', 1)
+            if len(keyword) == 3 :
+                keyword = keyword[0] + keyword[2]
+            else: 
+                keyword = keyword[1] 
+            # keyword = keyword.rsplit(' ', 1)[0]
             responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
 
     print(responses)
@@ -136,8 +146,10 @@ def upload(request):
     with open(r"D:\Major Project on CBIR and Recommendation\CBIR\test.txt", 'r+') as f:
         keyword=f.readline()
         f.truncate(0)
-    print(keyword)
+    
 
+    keyword = keyword.strip()
+    print(keyword)
     # getting data from api
     shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
     print('--------------------------------------------------shoeasy------------------------------------------')
@@ -160,34 +172,71 @@ def upload(request):
     
 
     if responses == []:
-        keyword = keyword.rsplit(' ', 1)[0]
-        keyword = keyword.rsplit(' ', 1)[0] 
-        shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
-        khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
-        responses = list(chain(shoeasy_responses, khwopakart_response))
-
-       # responses = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
-       
-        if responses == []:
-            keyword = keyword.rsplit(' ', 1)[0]
-            keyword = keyword.rsplit(' ', 1)[0]
+        # print('First Response')
+        # print(keyword)
+        keyword1 = keyword.rsplit(' ', 2)
+        # print(keyword1)
+        if len(keyword1) == 3 :
+            keyword = keyword1[0] + ' ' + keyword1[1]
+            # print(keyword1)
             shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
             khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
             responses = list(chain(shoeasy_responses, khwopakart_response))
+            print(responses)
+            if responses == []:
+                # print('Second Response')
+                keyword = keyword1[0] + ' ' + keyword1[2]
+                # print(keyword)
+                shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+                khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+                responses = list(chain(shoeasy_responses, khwopakart_response))
+                print(responses)
+                if responses == []:
+                    # print('Third Response')
+                    keyword = keyword1[1] + ' ' + keyword1[2]
+                    # print(keyword)
+                    shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+                    khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+                    responses = list(chain(shoeasy_responses, khwopakart_response))
 
-            # responses = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+                    if responses == []:
+                        # print('Third Response')
+                        keyword = keyword1[0]
+                        # print(keyword)
+                        shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+                        khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+                        responses = list(chain(shoeasy_responses, khwopakart_response))
+                        print(responses)
 
+
+        elif len(keyword1) == 2: 
+            keyword = keyword1[0]
+            shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+            khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+            responses = list(chain(shoeasy_responses, khwopakart_response))
+            if responses == []:
+                keyword = keyword1[1]
+                shoeasy_responses = requests.get(f'http://shoeasy.me/shoEasy-api/?search={keyword}').json()
+                khwopakart_response = requests.get(f'http://khwopakart.shoeasy.me/shoEasy-api/?search={keyword}').json()
+                responses = list(chain(shoeasy_responses, khwopakart_response))
+        
+        else: 
+            messages.error(request, 'Sorry the product you are looking for is not in our site.')
+            return redirect('home')
+
+
+    
     if responses == []:
         messages.error(request, 'Sorry the product you are looking for is not in our site.')
         return redirect('home')
 
 
-    print(responses)
+    # print(responses)
 
     # review rating analysis
     df_product, df_score=get_responses(responses)
-    print(df_product)
-    print(df_score)
+    # print(df_product)
+    # print(df_score)
     img_review_lst=[]
     img_score_lst=[]
     for item in list(df_product):
@@ -195,10 +244,10 @@ def upload(request):
     for score in list(df_score):
         img_score_lst.append(score)
     
-    print('=============================================================================')
-    print(img_review_lst)
-    print(img_score_lst)
-    print('=============================================================================')
+    # print('=============================================================================')
+    # print(img_review_lst)
+    # print(img_score_lst)
+    # print('=============================================================================')
 
     # removing files from directory
     removing_files = glob.glob('Json_response_images\*')
@@ -209,15 +258,15 @@ def upload(request):
     for response in responses:
         #print(response)
         name = response['product_name'] 
-        print(name)
+        # print(name)
         url = response['images']
-        print(url)
+        # print(url)
         testImage = urllib.request
         testImage.urlretrieve(url, f'D:\Major Project on CBIR and Recommendation\CBIR\Json_response_images\{name}.jpg')
 
     # checking the image similarity
     img_similar_lst=check_similar()
-    print(img_similar_lst)
+    # print(img_similar_lst)
 
     img_lst = []
     score_lst = []
@@ -228,24 +277,24 @@ def upload(request):
         score_similar_lst.append(similarity)
 
 
-    print(score_similar_lst)
+    # print(score_similar_lst)
     total_score = []
     for filename in filename_similar_lst:
         if filename in img_review_lst:
-            print(filename)
-            print(filename_similar_lst)
-            print(img_review_lst)
+            # print(filename)
+            # print(filename_similar_lst)
+            # print(img_review_lst)
             similar_index = filename_similar_lst.index(filename)
             review_index = img_review_lst.index(filename)
-            print(similar_index)
-            print(review_index)
+            # print(similar_index)
+            # print(review_index)
             similar_score = score_similar_lst[similar_index]
-            print(similar_score)
+            # print(similar_score)
 
             review_score = img_score_lst[review_index]
-            print(review_score)
+            # print(review_score)
             _total = similar_score*0.6 + review_score*0.4
-            print(_total)
+            # print(_total)
             score_lst.append(_total)
             img_lst.append(filename)
 
@@ -262,7 +311,8 @@ def upload(request):
     img_lst, score_lst = zip(*sorted_list)
     print(img_lst)
     print('---------------------------------------------------------------------------------------------------------')
-
+    print(score_lst)
+    print('----------------------------------------------------------------------------------------------')
 
     ecom_site_list = []
 
